@@ -1,8 +1,7 @@
-﻿using Entities;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
-using System;
 
-namespace VSFly
+namespace Entities
 {
     class Program
     {
