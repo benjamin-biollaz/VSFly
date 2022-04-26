@@ -1,13 +1,15 @@
 ﻿using Entities;
-using Microsoft.EntityFrameworkCore;
+
 using System;
 
 namespace VSFly
 {
     class Program
     {
+        /*
         static void Main(string[] args)
         {
+            /*
             DbContext dbContext = new VSFlyContext();
 
             var e = dbContext.Database.EnsureCreated();
@@ -18,6 +20,7 @@ namespace VSFly
             {
                 Console.WriteLine("Database already exists");
             }
-        }
+            
+        }*/
     }
 }
