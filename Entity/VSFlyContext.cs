@@ -5,10 +5,6 @@ using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
-
-
-
 
 namespace Entities
 {
@@ -27,7 +23,7 @@ namespace Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-                object p = optionsBuilder.UseSqlServer(ConnectionString);
+                optionsBuilder.UseSqlServer(ConnectionString);
             }
         }
     }

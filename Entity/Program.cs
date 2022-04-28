@@ -1,7 +1,8 @@
 ﻿using System;
+using Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Entities
+namespace Entity
 {
     class Program
     {
@@ -9,9 +10,9 @@ namespace Entities
         {
             DbContext dbContext = new VSFlyContext();
 
-            var e = dbContext.Database.EnsureCreated();
 
-            if (e)
+
+            if (dbContext.Database.EnsureCreated())
                 Console.WriteLine("Database has been created");
             else
             {
