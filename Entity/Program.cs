@@ -10,7 +10,13 @@ namespace Entity
         {
             DbContext dbContext = new VSFlyContext();
 
+            var database = dbContext.Database;
 
+            Console.WriteLine("Database: " + database);
+
+            bool test = database.EnsureCreated();
+
+            Console.WriteLine(test);
 
             if (dbContext.Database.EnsureCreated())
                 Console.WriteLine("Database has been created");

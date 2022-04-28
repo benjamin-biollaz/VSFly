@@ -12,8 +12,7 @@ namespace Entities
     public class Flight
     {
         [Key]
-        public int FlightId { get; set; }
-        [InverseProperty("BookingId")]
+        public int FlightId { get; set; } 
         public virtual List<Booking> Bookings { get; set; }
         public DateTime Date { get; set; }
         public string Departure { get; set; }

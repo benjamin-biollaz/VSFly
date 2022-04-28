@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Entities
 {
     [Table("Booking")]
-    [Keyless]
     public class Booking
     {
         [Key]
