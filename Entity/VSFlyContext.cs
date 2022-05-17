@@ -30,6 +30,7 @@ namespace Entities
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(ConnectionString);
+                optionsBuilder.UseLoggerFactory(myLoggerFactory).EnableSensitiveDataLogging();
             }
         }
     }

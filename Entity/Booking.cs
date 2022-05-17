@@ -15,7 +15,7 @@ namespace Entities
         [Key]
         public int BookingId { get; set; }
         public Flight Flight { get; set; }
-        public int FlightId { get; set; }
+    //    public int FlightId { get; set; }
         public Passenger Passenger { get; set; }
         public int PaidPrice { get; set; }
     }
