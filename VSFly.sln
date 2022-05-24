@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSFly", "VSFly.csproj", "{1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entity", "Entity\Entity.csproj", "{02AE12BC-AC56-4A7B-A2AA-ACCFFDB42B1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_API", "..\Web_API\Web_API.csproj", "{CEF74CF1-2CBD-472F-8824-D86DC9A003CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_API", "..\Web_API\Web_API.csproj", "{CEF74CF1-2CBD-472F-8824-D86DC9A003CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCClient", "..\MVCClient\MVCClient.csproj", "{00C06A31-5B22-4272-8BCD-BFE778996D94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVCClient", "..\MVCClient\MVCClient.csproj", "{00C06A31-5B22-4272-8BCD-BFE778996D94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mvcClient2", "..\mvcClient2\mvcClient2.csproj", "{6D31F7E1-0A07-44B9-A5BA-D68769DE2C11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{00C06A31-5B22-4272-8BCD-BFE778996D94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00C06A31-5B22-4272-8BCD-BFE778996D94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00C06A31-5B22-4272-8BCD-BFE778996D94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D31F7E1-0A07-44B9-A5BA-D68769DE2C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D31F7E1-0A07-44B9-A5BA-D68769DE2C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D31F7E1-0A07-44B9-A5BA-D68769DE2C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D31F7E1-0A07-44B9-A5BA-D68769DE2C11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
