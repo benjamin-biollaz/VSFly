@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Web_API.Models;
+using MVCClient.Models;
 
 
 namespace MVCClient.Services
