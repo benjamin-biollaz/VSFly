@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSFly", "VSFly.csproj", "{1DCD9C38-D4EC-4CE7-B2C0-51D09F4B8666}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entity", "Entity\Entity.csproj", "{02AE12BC-AC56-4A7B-A2AA-ACCFFDB42B1C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_API", "Web_API\Web_API.csproj", "{3A0C2ACF-928A-4EBB-993C-95BA74AE0908}"
@@ -19,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1DCD9C38-D4EC-4CE7-B2C0-51D09F4B8666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DCD9C38-D4EC-4CE7-B2C0-51D09F4B8666}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DCD9C38-D4EC-4CE7-B2C0-51D09F4B8666}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DCD9C38-D4EC-4CE7-B2C0-51D09F4B8666}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02AE12BC-AC56-4A7B-A2AA-ACCFFDB42B1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{02AE12BC-AC56-4A7B-A2AA-ACCFFDB42B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02AE12BC-AC56-4A7B-A2AA-ACCFFDB42B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
