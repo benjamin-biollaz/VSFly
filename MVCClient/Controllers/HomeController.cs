@@ -33,6 +33,12 @@ namespace MVCClient.Controllers
             return View();
         }
 
+        public IActionResult Average(int id)
+        {
+          // var averagePrice = await vsFlyServices
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
