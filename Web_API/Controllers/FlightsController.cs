@@ -42,7 +42,8 @@ namespace Web_API.Controllers
         }
 
         // GET: api/Flights/5
-        [HttpGet("{id}")]
+        [Route("Flight/{id}:int/Price")]
+        [HttpGet]
         public async Task<ActionResult<int>> GetFlightSalePrice(int id)
         {
             var flight = await _context.Flights.FindAsync(id);
