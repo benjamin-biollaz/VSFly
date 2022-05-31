@@ -21,7 +21,9 @@ namespace Web_API.Controllers
         {
             _context = context;
         }
-
+        /***
+         * Get only available flights
+         */
         // GET: api/Flights
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FlightM>>> GetFlights()
@@ -30,11 +32,40 @@ namespace Web_API.Controllers
             List<FlightM> flightMs = new List<FlightM>();
             foreach (var f in flightsList)
             {
+                if (f.FreeSeats == 0) continue;
                 var fm = f.ConvertToFlightM();
                 flightMs.Add(fm);
             }
 
             return flightMs;
+        }
+
+        // GET: api/Flights/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<int>> GetFlightSalePrice(int id)
+        {
+            var flight = await _context.Flights.FindAsync(id);
+            
+            if (flight == null)
+            {
+                return NotFound();
+            }
+
+            int price = flight.BasePrice;
+            DateTime today  = DateTime.Now;
+            float filling = ((float)flight.Capacity / flight.Capacity-flight.FreeSeats);
+            if (filling > 0.8)
+            {
+                price = 150 * price / 100;
+            } else if (filling < 0.2 && today.AddMonths(2) > flight.Date)
+            {
+                price = 80 * price / 100;
+            } else if (filling < 0.5 && today.AddMonths(1) > flight.Date)
+            {
+                price = 70 * price / 100;
+            }
+
+            return price;
         }
 
         // GET: api/Flights/5
