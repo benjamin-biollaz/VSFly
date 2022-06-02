@@ -78,6 +78,7 @@ namespace Web_API.Controllers
         }
 
         [Route("api/[controller]/{id}/totalSale")]
+        [HttpGet]
         public async Task<ActionResult<float>> GetTotalSalePrice(int id)
         {
             var flight = await _context.Flights.FindAsync(id);
