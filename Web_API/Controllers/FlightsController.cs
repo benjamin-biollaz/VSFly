@@ -172,10 +172,12 @@ namespace Web_API.Controllers
         [HttpGet]
         public async Task<ActionResult<float>> GetAveragePriceByDestination(string destination)
         {
-            //var flightsList = await _context.Flights.ToListAsync();
             var flightsList = await _context.Flights.Where(f => f.Destination == destination).ToListAsync();
-            float sumPrice = 0f;
+            int sumPrice = 0;
             int nbOfReservation = 0;
+
+            if (flightsList == null)
+                return 0;
 
             foreach (var f in flightsList)
             {
