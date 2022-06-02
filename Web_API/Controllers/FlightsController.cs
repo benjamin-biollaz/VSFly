@@ -97,8 +97,8 @@ namespace Web_API.Controllers
             return totalPrice;
         }
 
-        [HttpPost("{id, lastName, firstName}")]
-        public async Task<ActionResult<bool>> BookFlight(int id, string lastName, string firstName)
+        [HttpPost("{id}")]
+        public async Task<ActionResult<int>> BookFlight(int id, string lastName, string firstName)
         {
             var flight = await _context.Flights.FindAsync(id);
 
@@ -119,7 +119,7 @@ namespace Web_API.Controllers
                 Flight = flight, Passenger = p, PaidPrice = CalculateFlightPrice(flight)
             });
 
-            return true;
+            return _context.SaveChanges();
         }
 
         // GET: api/Flights/5
