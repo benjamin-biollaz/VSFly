@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +40,47 @@ namespace Web_API.Controllers
             }
 
             return flightMs;
+        }
+
+        /*
+         * Get booking details related to a destination
+         */
+        [Route("Flight/{destination}:string/Booking/Passenger")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<FlightBookingDetailsM>>> GetBookingDetailsByDestination(
+            string destination)
+        {
+            var flightsList = await _context.Flights.Where(f => f.Destination == destination).ToListAsync();
+
+            if (flightsList == null)
+            {
+                return null;
+            }
+
+            List<FlightBookingDetailsM> bookingDetails = null;
+            foreach (var f in flightsList)
+            {
+                var bookingList = await _context.Bookings.Include(f=>f.Passenger).Where(b =>
+                    b.Flight.FlightId == f.FlightId).ToListAsync();
+
+                foreach (var b in bookingList)
+                {
+                    if (bookingDetails == null)
+                        bookingDetails = new List<FlightBookingDetailsM>();
+
+                    var passengers = await _context.Persons.Where(p => p.PersonId == b.Passenger.PersonId).ToListAsync();
+                    foreach (var p in passengers)
+                    {
+                        bookingDetails.Add(new FlightBookingDetailsM()
+                        {
+                            FlightNo = b.Flight.FlightId,
+                            PaidPrice = b.PaidPrice,
+                            Passenger = p
+                        });
+                    }
+                }
+            }
+            return bookingDetails;
         }
 
         // GET: api/Flights/5
