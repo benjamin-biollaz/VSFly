@@ -33,7 +33,7 @@ namespace Web_API.Controllers
             List<FlightM> flightMs = new List<FlightM>();
             foreach (var f in flightsList)
             {
-                if (f.FreeSeats == 0) continue;
+                if (f.FreeSeats == 0 || DateTime.Now > f.Date) continue;
                 var fm = f.ConvertToFlightM();
                 flightMs.Add(fm);
             }
