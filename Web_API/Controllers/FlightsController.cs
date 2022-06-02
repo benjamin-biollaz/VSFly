@@ -81,7 +81,7 @@ namespace Web_API.Controllers
         [HttpGet]
         public async Task<ActionResult<float>> GetTotalSalePrice(int id)
         {
-            var flight = await _context.Flights.FindAsync(id);
+            var flight = _context.Flights.Include(f => f.Bookings).First((f => f.FlightId == id));
 
             if (flight == null)
             {
