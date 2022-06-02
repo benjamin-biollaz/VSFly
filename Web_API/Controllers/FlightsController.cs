@@ -42,8 +42,9 @@ namespace Web_API.Controllers
         }
 
         // GET: api/Flights/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<float>> GetFlightSalePrice(int id)
+        [Route("Flight/{id}:int/Price")]
+        [HttpGet]
+        public async Task<ActionResult<int>> GetFlightSalePrice(int id)
         {
             var flight = await _context.Flights.FindAsync(id);
 
@@ -121,7 +122,8 @@ namespace Web_API.Controllers
         }
 
         // GET: api/Flights/5
-        [HttpGet("{id}")]
+        [Route("Flight/{id}:int/")]
+        [HttpGet]
         public async Task<ActionResult<Flight>> GetFlight(int id)
         {
             var flight = await _context.Flights.FindAsync(id);
@@ -163,6 +165,32 @@ namespace Web_API.Controllers
             }
 
             return NoContent();
+        }
+
+        [Route("Flight/{destination}:string/averagePrice")]
+        [HttpGet]
+        public async Task<ActionResult<float>> GetAveragePriceByDestination(string destination)
+        {
+            //var flightsList = await _context.Flights.ToListAsync();
+            var flightsList = await _context.Flights.Where(f => f.Destination == destination).ToListAsync();
+            float sumPrice = 0f;
+            int nbOfReservation = 0;
+
+            foreach (var f in flightsList)
+            {
+                var bookingList = await _context.Bookings.Where(b =>
+                    b.Flight.FlightId == f.FlightId).ToListAsync();
+
+                foreach (var b in bookingList)
+                {
+                    sumPrice += b.PaidPrice;
+                    nbOfReservation++;
+                }
+            }
+
+            float floatAveragePrice = sumPrice / nbOfReservation;
+
+            return floatAveragePrice;
         }
 
         // POST: api/Flights
