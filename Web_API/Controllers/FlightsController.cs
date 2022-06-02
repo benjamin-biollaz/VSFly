@@ -33,7 +33,7 @@ namespace Web_API.Controllers
             List<FlightM> flightMs = new List<FlightM>();
             foreach (var f in flightsList)
             {
-                if (f.FreeSeats == 0) continue;
+                if (f.FreeSeats == 0 || DateTime.Now > f.Date) continue;
                 var fm = f.ConvertToFlightM();
                 flightMs.Add(fm);
             }
@@ -172,10 +172,12 @@ namespace Web_API.Controllers
         [HttpGet]
         public async Task<ActionResult<float>> GetAveragePriceByDestination(string destination)
         {
-            //var flightsList = await _context.Flights.ToListAsync();
             var flightsList = await _context.Flights.Where(f => f.Destination == destination).ToListAsync();
-            float sumPrice = 0f;
+            int sumPrice = 0;
             int nbOfReservation = 0;
+
+            if (flightsList == null)
+                return 0;
 
             foreach (var f in flightsList)
             {
