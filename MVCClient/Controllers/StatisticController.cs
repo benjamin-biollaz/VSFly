@@ -17,7 +17,11 @@ namespace MVCClient.Controllers
         [HttpPost]
         public IActionResult Search(SearchM searchIn)
         {
+            //look for flight statistics
 
+
+
+            //look for destination statistics
            
             return View();
         }

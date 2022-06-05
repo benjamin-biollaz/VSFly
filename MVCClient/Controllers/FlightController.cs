@@ -37,6 +37,8 @@ namespace MVCClient.Controllers
         public async Task<IActionResult> Book(int id)
         {
             var flight = await vsFlyServices.GetFlight(id);
+
+            //convert to a booking details to include incoming firstname and lastname
             BookingFullM bd = new BookingFullM()
             {
                 CurrentPrice = flight.CurrentPrice,
@@ -59,6 +61,7 @@ namespace MVCClient.Controllers
             };
             await vsFlyServices.BookFlight(bd);
 
+            //pass full object to display a complete resume
             return View("Confirmation", full);
         }
 
@@ -67,11 +70,6 @@ namespace MVCClient.Controllers
             return View(bdm);
         }
 
-        public IActionResult Average(int id)
-        {
-          // var averagePrice = await vsFlyServices
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
