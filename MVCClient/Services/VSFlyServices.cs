@@ -21,6 +21,21 @@ namespace MVCClient.Services
             _baseUri = "https://localhost:44303/api/";
         }
 
+        public Task<int> BookFlight(int id, string firstName, string lastName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<float> GetAveragePriceByDestination(string destination)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<FlightM> GetFlight(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<FlightM>> GetFlights()
         {
             var uri = _baseUri + "Flights";
@@ -28,6 +43,16 @@ namespace MVCClient.Services
             var reponseString = await _client.GetStringAsync(uri);
             var flightList = JsonConvert.DeserializeObject<IEnumerable<FlightM>>(reponseString);
             return flightList;
+        }
+
+        public Task<float> GetFlightSalePrice()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<float> GetTotalSalePrice()
+        {
+            throw new NotImplementedException();
         }
     }
 }
