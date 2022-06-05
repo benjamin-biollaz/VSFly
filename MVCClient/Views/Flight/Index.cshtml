@@ -1,14 +1,12 @@
 ﻿@model IEnumerable<MVCClient.Models.FlightM>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "flights";
 }
 
-<h1>Index</h1>
+<h3>Upcoming flights</h3>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -19,12 +17,14 @@
                 @Html.DisplayNameFor(model => model.Departure)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FlightNo)
+                Flight number
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
-            <th></th>
+            <th>
+                Price
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -40,13 +40,16 @@
                 @Html.DisplayFor(modelItem => item.FlightNo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @item.Date.ToString("d")
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("AveragePrice", "Average", new { id=item.FlightNo })
+                @{
+                   string price = "CHF" + item.CurrentPrice;
+                }
+                @Html.ActionLink(price, "Book", new {id=item.FlightNo})
+
             </td>
+           
         </tr>
 }
     </tbody>

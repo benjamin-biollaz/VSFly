@@ -11,5 +11,6 @@ namespace MVCClient.Models
         public string Departure { get; set; }
         public int FlightNo { get; set; }
         public DateTime Date { get; set; }
+        public float CurrentPrice { get; set; }
     }
 }

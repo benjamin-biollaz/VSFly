@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entities;
+using MVCClient.Models;
 using Web_API.Models;
 using Web_API.Extensions;
 
@@ -36,6 +37,7 @@ namespace Web_API.Controllers
             {
                 if (f.FreeSeats == 0 || DateTime.Now > f.Date) continue;
                 var fm = f.ConvertToFlightM();
+                fm.CurrentPrice = CalculateFlightPrice(f);
                 flightMs.Add(fm);
             }
 
@@ -116,7 +118,7 @@ namespace Web_API.Controllers
                 price = 70 * price / 100;
             }
 
-            return price;
+            return price / 100;
         }
 
         [Route("api/[controller]/{id}/totalSale")]
@@ -140,9 +142,9 @@ namespace Web_API.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<ActionResult<int>> BookFlight(int id, string lastName, string firstName)
+        public async Task<ActionResult<int>> BookFlight(BookingDetailsM bd)
         {
-            var flight = await _context.Flights.FindAsync(id);
+            var flight = await _context.Flights.FindAsync(bd.FlightNo);
 
             if (flight == null)
             {
@@ -152,7 +154,7 @@ namespace Web_API.Controllers
             Passenger p = new Passenger()
             {
                 BirthDate = DateTime.Now, CustomerSince = DateTime.Now,
-                Email = lastName + "." + firstName + "@mail.com", FirstName = firstName, LastName = lastName,
+                Email = bd.LastName + "." + bd.FirstName + "@mail.com", FirstName = bd.FirstName, LastName = bd.LastName,
                 Status = "null"
             };
             _context.Passengers.Add(p);
@@ -167,7 +169,7 @@ namespace Web_API.Controllers
         // GET: api/Flights/5
         [Route("Flight/{id}:int/")]
         [HttpGet]
-        public async Task<ActionResult<Flight>> GetFlight(int id)
+        public async Task<ActionResult<FlightM>> GetFlight(int id)
         {
             var flight = await _context.Flights.FindAsync(id);
 
@@ -176,7 +178,10 @@ namespace Web_API.Controllers
                 return NotFound();
             }
 
-            return flight;
+            var flightM = flight.ConvertToFlightM();
+            flightM.CurrentPrice = CalculateFlightPrice(flight);
+
+            return flightM;
         }
 
         // PUT: api/Flights/5

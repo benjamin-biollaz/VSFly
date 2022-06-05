@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using MVCClient.Models;
+using JsonConverter = System.Text.Json.Serialization.JsonConverter;
 
 
 namespace MVCClient.Services
@@ -21,19 +23,27 @@ namespace MVCClient.Services
             _baseUri = "https://localhost:44303/api/";
         }
 
-        public Task<int> BookFlight(int id, string firstName, string lastName)
+        public async Task<int> BookFlight(BookingDetailsM bd)
+        {
+            var uri = _baseUri + "Flights/" + bd.FlightNo + ":int";
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(bd), Encoding.UTF8, "application/json");
+            var x = await _client.PostAsync(uri, httpContent);
+            return 0;
+        }
+
+        public async Task<float> GetAveragePriceByDestination(string destination)
         {
             throw new NotImplementedException();
         }
 
-        public Task<float> GetAveragePriceByDestination(string destination)
+        public async Task<FlightM> GetFlight(int id)
         {
-            throw new NotImplementedException();
-        }
+            var uri = _baseUri + "Flights/Flight/" + id + ":int";
 
-        public Task<FlightM> GetFlight(int id)
-        {
-            throw new NotImplementedException();
+            var reponseString = await _client.GetStringAsync(uri);
+            var flight = JsonConvert.DeserializeObject<FlightM>(reponseString);
+            return flight;
+
         }
 
         public async Task<IEnumerable<FlightM>> GetFlights()
@@ -45,12 +55,12 @@ namespace MVCClient.Services
             return flightList;
         }
 
-        public Task<float> GetFlightSalePrice()
+        public async Task<float> GetFlightSalePrice()
         {
             throw new NotImplementedException();
         }
 
-        public Task<float> GetTotalSalePrice()
+        public async Task<float> GetTotalSalePrice()
         {
             throw new NotImplementedException();
         }
