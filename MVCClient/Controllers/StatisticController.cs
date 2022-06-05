@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MVCClient.Models;
 
 namespace MVCClient.Controllers
 {
@@ -14,9 +15,10 @@ namespace MVCClient.Controllers
         }
 
         [HttpPost]
-        public IActionResult Search(string search)
+        public IActionResult Search(SearchM searchIn)
         {
-            Console.WriteLine("hello");
+
+           
             return View();
         }
     }
