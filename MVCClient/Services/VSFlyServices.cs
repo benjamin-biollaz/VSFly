@@ -33,7 +33,18 @@ namespace MVCClient.Services
 
         public async Task<float> GetAveragePriceByDestination(string destination)
         {
-            throw new NotImplementedException();
+            var uri = _baseUri + "Flights/Flight/" + destination + ":string/averagePrice";
+            var priceString = await _client.GetStringAsync(uri);
+            return (float) Convert.ToDouble(priceString);
+        }
+
+        public async Task<IEnumerable<DestinationBookingDetails>> GetBookingDetailsByDestination(string destination)
+        {
+            var uri = _baseUri + "Flights/Flight/" + destination + ":string/Booking/Passenger";
+            var responseString = await _client.GetStringAsync(uri);
+            var bookingDetails =
+                JsonConvert.DeserializeObject<IEnumerable<DestinationBookingDetails>>(responseString);
+            return bookingDetails;
         }
 
         public async Task<FlightM> GetFlight(int id)

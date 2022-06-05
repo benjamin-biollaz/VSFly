@@ -1,12 +1,18 @@
 ﻿
+@{
+    ViewData["Title"] = "Home";
+}
+
 <div class="home_div">
     <p id="Welcome">Welcome to VSFly</p>
     <p>Book <a class="bigWord" asp-area="" asp-controller="Flight" asp-action="Index">flights</a> at competitive price within a few clicks.</p>
-    <p>Our <a class="bigWord" asp-area="" asp-controller="Statistic" asp-action="Search">statistics</a> 
-        make VSFly the ultimate flight comparator.</p>
+    <p>
+        Our <a class="bigWord" asp-area="" asp-controller="Statistic" asp-action="Search">statistics</a>
+        make VSFly the ultimate flight comparator.
+    </p>
     <br />
 
-    <img src="~/image/takeOff.gif" id="takeOff"  />
+    <img src="~/image/takeOff.gif" id="takeOff" />
 </div>
 
 <style>
@@ -24,9 +30,9 @@
         justify-content: center;
     }
 
-    .home_div > p {
-        font-size: 2.5vh;
-    }
+        .home_div > p {
+            font-size: 2.5vh;
+        }
 
     #takeOff {
         border-radius: 30px;

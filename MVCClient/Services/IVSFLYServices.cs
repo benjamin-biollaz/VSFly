@@ -16,5 +16,8 @@ namespace MVCClient.Services
        public Task<FlightM> GetFlight(int id);
        public Task<float> GetAveragePriceByDestination(string destination);
 
+       public Task<IEnumerable<DestinationBookingDetails>> GetBookingDetailsByDestination(
+           string destination);
+
     }
 }

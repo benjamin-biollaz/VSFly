@@ -30,7 +30,7 @@ namespace MVCClient.Controllers
         public async Task<IActionResult> Search(SearchM searchIn)
         {
             //look for flight statistics
-            FlightM flight;
+            FlightM flight = null;
             float totalSalePrice;
             try
             {
@@ -38,7 +38,7 @@ namespace MVCClient.Controllers
             }
             catch (FormatException e)
             {
-                return View("Search");
+                Console.WriteLine(e.Message);
             }
 
             if (flight != null)
@@ -56,8 +56,23 @@ namespace MVCClient.Controllers
             }
 
             //look for destination statistics
-           
-            return View();
+            DestinationStatFull destFull;
+            var averagePrice = await vsFlyServices.GetAveragePriceByDestination(searchIn.SearchInput);
+
+            destFull = new DestinationStatFull()
+            {
+                AverageSalePrice = averagePrice
+            };
+
+            var destinationStat = await vsFlyServices.GetBookingDetailsByDestination(searchIn.SearchInput);
+            if (destinationStat == null)
+            {
+                return View("Search");
+            }
+
+            destFull.DestinationBookingDetails = destinationStat;
+
+            return View("DestinationStat", destFull);
         }
 
 

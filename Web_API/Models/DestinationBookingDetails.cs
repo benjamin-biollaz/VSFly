@@ -6,10 +6,11 @@ using Entities;
 
 namespace Web_API.Models
 {
-    public class FlightBookingDetailsM
+    public class DestinationBookingDetails
     {
         public int FlightNo { get; set; }
         public float PaidPrice { get; set; }
+        public string Destination { get; set; }
         public Person Passenger { get; set; }
     }
 }
