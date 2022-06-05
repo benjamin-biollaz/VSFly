@@ -55,14 +55,16 @@ namespace MVCClient.Services
             return flightList;
         }
 
-        public async Task<float> GetFlightSalePrice()
+        public async Task<float> GetFlightSalePrice(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<float> GetTotalSalePrice()
+        public async Task<float> GetTotalSalePrice(int flightId)
         {
-            throw new NotImplementedException();
+            var uri = _baseUri + "Flights/api/Flights/" + flightId + "/totalSale";
+            var responseString = await _client.GetStringAsync(uri);
+            return (float) Convert.ToDouble(responseString);
         }
     }
 }
