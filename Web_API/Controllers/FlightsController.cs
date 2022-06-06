@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entities;
+using MVCClient.Models;
 using Web_API.Models;
 using Web_API.Extensions;
 
@@ -35,10 +37,53 @@ namespace Web_API.Controllers
             {
                 if (f.FreeSeats == 0 || DateTime.Now > f.Date) continue;
                 var fm = f.ConvertToFlightM();
+                fm.CurrentPrice = CalculateFlightPrice(f);
                 flightMs.Add(fm);
             }
 
             return flightMs;
+        }
+
+        /*
+         * Get booking details related to a destination
+         */
+        [Route("Flight/{destination}:string/Booking/Passenger")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<DestinationBookingDetails>>> GetBookingDetailsByDestination(
+            string destination)
+        {
+            var flightsList = await _context.Flights.Where(f => f.Destination == destination).ToListAsync();
+
+            if (flightsList == null)
+            {
+                return null;
+            }
+
+            List<DestinationBookingDetails> bookingDetails = null;
+            foreach (var f in flightsList)
+            {
+                var bookingList = await _context.Bookings.Include(f => f.Passenger).Where(b =>
+                      b.Flight.FlightId == f.FlightId).ToListAsync();
+
+                foreach (var b in bookingList)
+                {
+                    if (bookingDetails == null)
+                        bookingDetails = new List<DestinationBookingDetails>();
+
+                    var passengers = await _context.Persons.Where(p => p.PersonId == b.Passenger.PersonId).ToListAsync();
+                    foreach (var p in passengers)
+                    {
+                        bookingDetails.Add(new DestinationBookingDetails()
+                        {
+                            FlightNo = b.Flight.FlightId,
+                            PaidPrice = b.PaidPrice,
+                            Passenger = p,
+                            Destination = destination
+                        });
+                    }
+                }
+            }
+            return bookingDetails;
         }
 
         // GET: api/Flights/5
@@ -53,7 +98,7 @@ namespace Web_API.Controllers
                 return NotFound();
             }
 
-            return (float)(CalculateFlightPrice(flight))/100;
+            return (float)(CalculateFlightPrice(flight)) / 100;
         }
 
         private int CalculateFlightPrice(Flight flight)
@@ -94,7 +139,7 @@ namespace Web_API.Controllers
                 totalPrice += b.PaidPrice;
             }
 
-            return (float)(totalPrice)/100;
+            return (float)(totalPrice) / 100;
         }
 
         [HttpPost("{id}")]
@@ -109,14 +154,19 @@ namespace Web_API.Controllers
 
             Passenger p = new Passenger()
             {
-                BirthDate = DateTime.Now, CustomerSince = DateTime.Now,
-                Email = lastName + "." + firstName + "@mail.com", FirstName = firstName, LastName = lastName,
+                BirthDate = DateTime.Now,
+                CustomerSince = DateTime.Now,
+                Email = lastName + "." + firstName + "@mail.com",
+                FirstName = firstName,
+                LastName = lastName,
                 Status = "null"
             };
             _context.Passengers.Add(p);
             _context.Bookings.Add(new Booking()
             {
-                Flight = flight, Passenger = p, PaidPrice = CalculateFlightPrice(flight)
+                Flight = flight,
+                Passenger = p,
+                PaidPrice = CalculateFlightPrice(flight)
             });
 
             return _context.SaveChanges();
@@ -125,16 +175,19 @@ namespace Web_API.Controllers
         // GET: api/Flights/5
         [Route("Flight/{id}:int/")]
         [HttpGet]
-        public async Task<ActionResult<Flight>> GetFlight(int id)
+        public FlightM GetFlight(int id)
         {
-            var flight = await _context.Flights.FindAsync(id);
+            var flight = _context.Flights.FirstOrDefault(f => f.FlightId == id);
 
             if (flight == null)
             {
-                return NotFound();
+                return null;
             }
 
-            return flight;
+            var flightM = flight.ConvertToFlightM();
+            flightM.CurrentPrice = CalculateFlightPrice(flight);
+
+            return flightM;
         }
 
         // PUT: api/Flights/5
@@ -184,15 +237,19 @@ namespace Web_API.Controllers
                 var bookingList = await _context.Bookings.Where(b =>
                     b.Flight.FlightId == f.FlightId).ToListAsync();
 
+                if (bookingList == null) continue;
+                nbOfReservation += bookingList.Count;
                 foreach (var b in bookingList)
                 {
                     sumPrice += b.PaidPrice;
-                    nbOfReservation++;
                 }
             }
+            if (nbOfReservation != 0)
+                return sumPrice / nbOfReservation;
+
 
             if (nbOfReservation == 0) return 0f;
-            float floatAveragePrice = (float)(sumPrice) / nbOfReservation /100;
+            float floatAveragePrice = (float)(sumPrice) / nbOfReservation / 100;
 
             return floatAveragePrice;
         }
@@ -205,7 +262,7 @@ namespace Web_API.Controllers
             _context.Flights.Add(fm.ConvertToFlight());
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFlight", new {id = fm.FlightNo}, fm);
+            return CreatedAtAction("GetFlight", new { id = fm.FlightNo }, fm);
         }
 
         // DELETE: api/Flights/5
