@@ -44,7 +44,7 @@ namespace Web_API.Controllers
         // GET: api/Flights/5
         [Route("Flight/{id}:int/Price")]
         [HttpGet]
-        public async Task<ActionResult<int>> GetFlightSalePrice(int id)
+        public async Task<ActionResult<float>> GetFlightSalePrice(int id)
         {
             var flight = await _context.Flights.FindAsync(id);
 
@@ -53,7 +53,7 @@ namespace Web_API.Controllers
                 return NotFound();
             }
 
-            return CalculateFlightPrice(flight);
+            return (float)(CalculateFlightPrice(flight))/100;
         }
 
         private int CalculateFlightPrice(Flight flight)
@@ -94,7 +94,7 @@ namespace Web_API.Controllers
                 totalPrice += b.PaidPrice;
             }
 
-            return totalPrice;
+            return (float)(totalPrice)/100;
         }
 
         [HttpPost("{id}")]
@@ -191,7 +191,8 @@ namespace Web_API.Controllers
                 }
             }
 
-            float floatAveragePrice = sumPrice / nbOfReservation;
+            if (nbOfReservation == 0) return 0f;
+            float floatAveragePrice = (float)(sumPrice) / nbOfReservation /100;
 
             return floatAveragePrice;
         }
