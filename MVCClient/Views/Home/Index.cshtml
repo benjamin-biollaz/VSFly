@@ -1,53 +1,44 @@
-﻿@model IEnumerable<MVCClient.Models.FlightM>
-
+﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Home";
 }
 
-<h1>Index</h1>
+<div class="home_div">
+    <p id="Welcome">Welcome to VSFly</p>
+    <p>Book <a class="bigWord" asp-area="" asp-controller="Flight" asp-action="Index">flights</a> at competitive price within a few clicks.</p>
+    <p>
+        Our <a class="bigWord" asp-area="" asp-controller="Statistic" asp-action="Search">statistics</a>
+        make VSFly the ultimate flight comparator.
+    </p>
+    <br />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Destination)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Departure)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FlightNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Destination)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Departure)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FlightNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("AveragePrice", "Average", new { id=item.FlightNo })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <img src="~/image/takeOff.gif" id="takeOff" />
+</div>
+
+<style>
+    .bigWord {
+        font-size: 3vh;
+    }
+
+    #Welcome {
+        font-size: 4vh;
+    }
+
+    .home_div {
+        margin: auto;
+        text-align: center;
+        justify-content: center;
+    }
+
+        .home_div > p {
+            font-size: 2.5vh;
+        }
+
+    #takeOff {
+        border-radius: 10px;
+        width: 75%;
+        height: 75%;
+        box-shadow: 3px 3px 15px;
+    }
+</style>
+
