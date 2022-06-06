@@ -37,7 +37,7 @@ namespace Web_API.Controllers
             {
                 if (f.FreeSeats == 0 || DateTime.Now > f.Date) continue;
                 var fm = f.ConvertToFlightM();
-                fm.CurrentPrice = CalculateFlightPrice(f);
+                fm.CurrentPrice = (float)(CalculateFlightPrice(f)) /100;
                 flightMs.Add(fm);
             }
 
@@ -76,7 +76,7 @@ namespace Web_API.Controllers
                         bookingDetails.Add(new DestinationBookingDetails()
                         {
                             FlightNo = b.Flight.FlightId,
-                            PaidPrice = b.PaidPrice,
+                            PaidPrice = (float)(b.PaidPrice)/100,
                             Passenger = p,
                             Destination = destination
                         });
@@ -126,7 +126,7 @@ namespace Web_API.Controllers
         [HttpGet]
         public async Task<ActionResult<float>> GetTotalSalePrice(int id)
         {
-            var flight = _context.Flights.Include(f => f.Bookings).First((f => f.FlightId == id));
+            var flight = await _context.Flights.Include(f => f.Bookings).FirstAsync((f => f.FlightId == id));
 
             if (flight == null)
             {
@@ -139,7 +139,7 @@ namespace Web_API.Controllers
                 totalPrice += b.PaidPrice;
             }
 
-            return (float)(totalPrice) / 100;
+            return (float)(totalPrice) /100;
         }
 
         [HttpPost("{id}")]
@@ -185,7 +185,7 @@ namespace Web_API.Controllers
             }
 
             var flightM = flight.ConvertToFlightM();
-            flightM.CurrentPrice = CalculateFlightPrice(flight);
+            flightM.CurrentPrice = (float) (CalculateFlightPrice(flight))/100;
 
             return flightM;
         }
@@ -244,11 +244,10 @@ namespace Web_API.Controllers
                     sumPrice += b.PaidPrice;
                 }
             }
-            if (nbOfReservation != 0)
-                return sumPrice / nbOfReservation;
 
+            if (nbOfReservation == 0)
+                return 0f;
 
-            if (nbOfReservation == 0) return 0f;
             float floatAveragePrice = (float)(sumPrice) / nbOfReservation / 100;
 
             return floatAveragePrice;
