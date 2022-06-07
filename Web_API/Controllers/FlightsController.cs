@@ -144,15 +144,17 @@ namespace Web_API.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<ActionResult<int>> BookFlight(int id, string lastName, string firstName)
+        public async Task<ActionResult<int>> BookFlight(BookingDetailsM bd)
         {
-            var flight = await _context.Flights.FindAsync(id);
+            var flight = await _context.Flights.FindAsync(bd.FlightNo);
 
             if (flight == null)
             {
                 return NotFound();
             }
 
+            var lastName = bd.LastName;
+            var firstName = bd.FirstName;
             Passenger p = new Passenger()
             {
                 BirthDate = DateTime.Now,
