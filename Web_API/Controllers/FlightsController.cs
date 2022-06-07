@@ -35,6 +35,7 @@ namespace Web_API.Controllers
             List<FlightM> flightMs = new List<FlightM>();
             foreach (var f in flightsList)
             {
+                //free seats and flight date is not passed
                 if (f.FreeSeats == 0 || DateTime.Now > f.Date) continue;
                 var fm = f.ConvertToFlightM();
                 fm.CurrentPrice = (float)(CalculateFlightPrice(f)) /100;

@@ -60,7 +60,6 @@ namespace MVCClient.Services
         public async Task<IEnumerable<FlightM>> GetFlights()
         {
             var uri = _baseUri + "Flights";
-
             var reponseString = await _client.GetStringAsync(uri);
             var flightList = JsonConvert.DeserializeObject<IEnumerable<FlightM>>(reponseString);
             return flightList;
@@ -68,7 +67,10 @@ namespace MVCClient.Services
 
         public async Task<float> GetFlightSalePrice(int id)
         {
-            throw new NotImplementedException();
+
+            var uri = _baseUri + "Flights/Flight/" + id + ":int/Price";
+            var responseString = await _client.GetStringAsync(uri);
+            return (float) Convert.ToDouble(responseString);
         }
 
         public async Task<float> GetTotalSalePrice(int flightId)
