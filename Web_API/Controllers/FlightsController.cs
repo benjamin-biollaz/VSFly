@@ -111,13 +111,13 @@ namespace Web_API.Controllers
             {
                 price = 150 * price / 100;
             }
-            else if (filling < 0.2 && today.AddMonths(2) > flight.Date)
-            {
-                price = 80 * price / 100;
-            }
             else if (filling < 0.5 && today.AddMonths(1) > flight.Date)
             {
                 price = 70 * price / 100;
+            }
+            else if (filling < 0.2 && today.AddMonths(2) > flight.Date)
+            {
+                price = 80 * price / 100;
             }
 
             return price;
