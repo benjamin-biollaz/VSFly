@@ -106,7 +106,7 @@ namespace Web_API.Controllers
         {
             int price = flight.BasePrice;
             DateTime today = DateTime.Now;
-            float filling = ((float)flight.Capacity / flight.Capacity - flight.FreeSeats);
+            float filling = ((float)(flight.Capacity-flight.FreeSeats) / flight.Capacity);
             if (filling > 0.8)
             {
                 price = 150 * price / 100;
@@ -146,7 +146,7 @@ namespace Web_API.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult<int>> BookFlight(BookingDetailsM bd)
         {
-            var flight = await _context.Flights.FindAsync(bd.FlightNo);
+            var flight = await _context.Flights.Include(f => f.Bookings).FirstAsync(f => f.FlightId == bd.FlightNo);
 
             if (flight == null)
             {
@@ -171,6 +171,9 @@ namespace Web_API.Controllers
                 Passenger = p,
                 PaidPrice = CalculateFlightPrice(flight)
             });
+
+            flight.FreeSeats = flight.Capacity - flight.Bookings.Count;
+            _context.Flights.Update(flight);
 
             return _context.SaveChanges();
         }

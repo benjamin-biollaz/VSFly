@@ -12,5 +12,6 @@ namespace Web_API.Models
         public int FlightNo { get; set; }
         public DateTime Date { get; set; }
         public float CurrentPrice { get; set; }
+        public int FreeSeats { get; set; }
     }
 }

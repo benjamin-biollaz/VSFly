@@ -17,7 +17,8 @@ namespace Web_API.Extensions
                 Date = fm.Date,
                 Departure = fm.Departure,
                 Destination = fm.Destination,
-                FlightId = fm.FlightNo
+                FlightId = fm.FlightNo,
+                FreeSeats = fm.FreeSeats
             };
             return f;
         }
@@ -29,7 +30,8 @@ namespace Web_API.Extensions
                 Date = f.Date,
                 Departure = f.Departure,
                 Destination = f.Destination,
-                FlightNo = f.FlightId
+                FlightNo = f.FlightId,
+                FreeSeats = f.FreeSeats
             };
             return fm;
         }
