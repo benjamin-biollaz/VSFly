@@ -18,7 +18,8 @@ namespace Web_API.Extensions
                 Departure = fm.Departure,
                 Destination = fm.Destination,
                 FlightId = fm.FlightNo,
-                FreeSeats = fm.FreeSeats
+                FreeSeats = fm.FreeSeats,
+                BasePrice = Convert.ToInt32(fm.BasePrice * 100)
             };
             return f;
         }
@@ -31,7 +32,8 @@ namespace Web_API.Extensions
                 Departure = f.Departure,
                 Destination = f.Destination,
                 FlightNo = f.FlightId,
-                FreeSeats = f.FreeSeats
+                FreeSeats = f.FreeSeats,
+                BasePrice = f.BasePrice
             };
             return fm;
         }

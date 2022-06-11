@@ -39,7 +39,6 @@ namespace Web_API.Controllers
                 if (f.FreeSeats == 0 || DateTime.Now > f.Date) continue;
                 var fm = f.ConvertToFlightM();
                 fm.CurrentPrice = (float)(CalculateFlightPrice(f)) /100;
-                fm.BasePrice = ((float) f.BasePrice) / 100;
                 flightMs.Add(fm);
             }
 
