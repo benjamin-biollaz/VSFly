@@ -31,7 +31,7 @@ namespace Web_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FlightM>>> GetFlights()
         {
-            var flightsList = await _context.Flights.ToListAsync();
+            var flightsList = await _context.Flights.OrderBy(f => f.Date).ToListAsync();
             List<FlightM> flightMs = new List<FlightM>();
             foreach (var f in flightsList)
             {
@@ -39,6 +39,7 @@ namespace Web_API.Controllers
                 if (f.FreeSeats == 0 || DateTime.Now > f.Date) continue;
                 var fm = f.ConvertToFlightM();
                 fm.CurrentPrice = (float)(CalculateFlightPrice(f)) /100;
+                fm.BasePrice = ((float) f.BasePrice) / 100;
                 flightMs.Add(fm);
             }
 
